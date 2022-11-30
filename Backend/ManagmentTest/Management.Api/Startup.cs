@@ -1,5 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Persistance.Context;
+using Business.Mappers;
+using Business.Services;
 
 namespace Management.Api
 {
@@ -19,10 +21,8 @@ namespace Management.Api
             services.AddPersistence(Configuration);
 
             //services.AddProjectHelpers(Configuration);
-            //services.AddMaping();
-            //services.AddRepository();
-            //services.AddCommands();
-
+            services.AddViewModelMaping();
+            services.AddRepositoryServices();
             services.AddSwaggerGen();
             services.AddControllers();
 
