@@ -2,6 +2,7 @@
 using Persistance.Context;
 using Business.Mappers;
 using Business.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Api
 {
@@ -16,22 +17,24 @@ namespace Management.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //Context
             services.AddScoped<Context>();
             services.AddPersistence(Configuration);
-
+            //Dependencies
             //services.AddProjectHelpers(Configuration);
             services.AddViewModelMaping();
             services.AddRepositoryServices();
             services.AddSwaggerGen();
             services.AddControllers();
 
-            //services.AddApiVersioning(options =>
-            //{
-            //    options.AssumeDefaultVersionWhenUnspecified = true;
-            //    options.DefaultApiVersion = new ApiVersion(1, 0);
+            //Version
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
 
-            //});
+            });
+            
             services.AddControllers();
             AddSwagger(services);
         }

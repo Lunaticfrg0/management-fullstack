@@ -1,23 +1,54 @@
-﻿using Business.Mappers.Dto;
+﻿using AutoMapper;
+using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Microsoft.EntityFrameworkCore;
+using Persistance.Context;
+using Persistance.Domain.Entities;
 
 namespace Business.Services.Repository
 {
     public class ClientRepository : IClientRepository
     {
-        public Task Create(ClientDto client)
+        private readonly IMapper _mapper;
+        private readonly Context _context;
+        public ClientRepository(IMapper mapper, Context context)
         {
-            throw new NotImplementedException();
+            _mapper = mapper;
+            _context = context;
+        }
+        public async Task Create(ClientDto client)
+        {
+            try
+            {
+                var newClient = _mapper.Map<Client>(client);
+                _context.Add(newClient);
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var currentClient = await _context.Clients.FirstAsync(x => x.Id == id);
+                currentClient.IsDeleted = true;
+                _context.Update(currentClient);
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
         }
 
-        public Task<ClientDto> GetById(Guid Id)
+        public async Task<ClientDto> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var client = _mapper.Map<ClientDto>(_context.Clients.FirstOrDefault(x => x.Id == id));
+            return client;
         }
 
         public Task<List<ClientDto>> List()
@@ -25,9 +56,19 @@ namespace Business.Services.Repository
             throw new NotImplementedException();
         }
 
-        public Task Update(ClientDto client)
+        public async Task Update(ClientDto client)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var currentClient = await _context.Clients.FirstAsync(x => x.Id == client.Id);
+                _mapper.Map(client, currentClient);
+                _context.Update(currentClient);
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
         }
     }
 }

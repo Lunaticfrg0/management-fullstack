@@ -8,7 +8,7 @@ namespace Business.Services.IRepository
         public Task Update(ClientAddressDto clientAddress);
         public Task Delete(Guid id);
         //Add Pagination
-        public Task<List<ClientAddressDto>> List();
+        public Task<List<ClientAddressDto>> List(Guid clientId);
         public Task<ClientAddressDto> GetById(Guid id);
     }
 }

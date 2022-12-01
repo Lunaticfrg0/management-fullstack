@@ -1,33 +1,74 @@
-﻿using Business.Mappers.Dto;
+﻿using AutoMapper;
+using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Microsoft.EntityFrameworkCore;
+using Persistance.Context;
+using Persistance.Domain.Entities;
 
 namespace Business.Services.Repository
 {
     public class ClientNumberRepository : IClientNumberRepository
     {
-        public Task Create(ClientNumberDto clientNumber)
+
+        private readonly IMapper _mapper;
+        private readonly Context _context;
+        public ClientNumberRepository(IMapper mapper, Context context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
+        public async Task Create(ClientNumberDto clientNumber)
+        {
+            try
+            {
+                var newClientNumber = _mapper.Map<ClientNumber>(clientNumber);
+                _context.Add(newClientNumber);
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
+        }
+
+        public async Task Delete(Guid id)
+        {
+            try
+            {
+                var currentClientNumber = await _context.ClientNumbers.FirstAsync(x => x.Id == id);
+                _context.ClientNumbers.Remove(currentClientNumber);
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
+        }
+
+        public async Task<ClientNumberDto> GetById(Guid id)
+        {
+            var clientNumber = _mapper.Map<ClientNumberDto>(_context.ClientNumbers.FirstOrDefault(x => x.Id == id));
+            return clientNumber;
+        }
+
+        public Task<List<ClientNumberDto>> List(Guid clientId)
         {
             throw new NotImplementedException();
         }
 
-        public Task Delete(Guid id)
+        public async Task Update(ClientNumberDto clientNumber)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var currentClientNumber = await _context.ClientNumbers.FirstAsync(x => x.Id == clientNumber.Id);
+                _mapper.Map(clientNumber, currentClientNumber);
+                _context.Update(currentClientNumber);
+            }
+            catch (Exception ex)
+            {
 
-        public Task<ClientNumberDto> GetById(Guid Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<ClientNumberDto>> List()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(ClientNumberDto clientNumber)
-        {
-            throw new NotImplementedException();
+                throw new ApplicationException(ex.Message);
+            }
         }
     }
 }
