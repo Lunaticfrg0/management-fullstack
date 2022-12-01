@@ -39,6 +39,7 @@ const Home = () => {
       const onSearchChange = (e) => {
         const searchFieldString = e.target.value.toLocaleLowerCase()
         setSearchTerm(searchFieldString)
+        setPageNumber(1)
     
     }
     return (
