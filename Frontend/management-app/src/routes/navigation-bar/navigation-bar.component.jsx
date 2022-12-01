@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import { Fragment} from "react";
 import { ReactComponent as HomeLogo } from "../../assets/crown.svg";
 
-import { NavigationContainer, LogoContainer } from "./navigation-bar.styles";
+import { NavigationContainer, NavLink, NavLinks, LogoContainer } from "./navigation-bar.styles";
 
 const NavigationBar = () => {
     return(
@@ -11,6 +11,11 @@ const NavigationBar = () => {
             <LogoContainer to="/">
                 <HomeLogo className="logo"/>
             </LogoContainer>
+            <NavLinks>
+                <NavLink to="/create-client">
+                    Create Clients
+                </NavLink>
+            </NavLinks>
         </NavigationContainer>
         <Outlet/>
       </Fragment>
