@@ -3,6 +3,8 @@ using Persistance.Context;
 using Business.Mappers;
 using Business.Services;
 using Microsoft.AspNetCore.Mvc;
+using Helpers;
+using Helpers.Middlewares;
 
 namespace Management.Api
 {
@@ -21,7 +23,7 @@ namespace Management.Api
             services.AddScoped<Context>();
             services.AddPersistence(Configuration);
             //Dependencies
-            //services.AddProjectHelpers(Configuration);
+            services.AddProjectHelpers(Configuration);
             services.AddViewModelMaping();
             services.AddRepositoryServices();
             services.AddSwaggerGen();
@@ -74,6 +76,7 @@ namespace Management.Api
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseDeveloperExceptionPage();
+            app.ConfigureCustomExceptionMiddleware();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

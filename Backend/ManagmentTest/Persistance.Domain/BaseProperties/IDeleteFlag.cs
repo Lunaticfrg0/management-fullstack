@@ -1,6 +1,6 @@
 ﻿namespace Persistance.Domain.BaseProperties
 {
-    internal interface IDeleteFlag
+    public interface IDeleteFlag
     {
         public bool IsDeleted { get; set; }
     }
