@@ -20,7 +20,6 @@ const Home = () => {
       };
 
     useEffect(() => {
-        console.log("corrio")
         fetch(
             `${root_api.clients}?pageSize=${encodeURIComponent(amountPerPage)}&currentPage=${encodeURIComponent(pageNumber)}&searchTerm=${encodeURIComponent(searchTerm)}&`, {
             method:"get",    

@@ -39,12 +39,10 @@ const ClientCreate = () => {
         },
         }).then((response) => response.json())
         .then((data) => {
-            console.log(data)
            alert("Client created")
            onNavigateHandler(data.data)
         })
         .catch((err) => {
-           console.log(err.message);
            alert(err.message)
            setIsLoading(false)
         });
