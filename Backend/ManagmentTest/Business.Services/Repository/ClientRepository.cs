@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Helpers.Cache;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
 using Persistance.Domain.Entities;
@@ -11,10 +12,12 @@ namespace Business.Services.Repository
     {
         private readonly IMapper _mapper;
         private readonly Context _context;
-        public ClientRepository(IMapper mapper, Context context)
+        private readonly ICache _cache;
+        public ClientRepository(IMapper mapper, Context context, ICache cache)
         {
             _mapper = mapper;
             _context = context;
+            _cache = cache;
         }
         public async Task Create(ClientDto client)
         {
@@ -39,6 +42,7 @@ namespace Business.Services.Repository
                 currentClient.IsDeleted = true;
                 _context.Update(currentClient);
                 _context.SaveChanges();
+                _cache.RemoveCache(id.ToString());
             }
             catch (Exception ex)
             {
@@ -49,10 +53,16 @@ namespace Business.Services.Repository
 
         public async Task<ClientDto> GetById(Guid id)
         {
+            var cachedValue = _cache.GetCache<ClientDto>(id.ToString());
+            if (cachedValue != null)
+            {
+                return cachedValue;
+            }
             var client = _mapper.Map<ClientDto>(_context.Clients
                 .Include(x => x.ClientAddresses)
                 .Include(x => x.ClientNumbers)
                 .FirstOrDefault(x => x.Id == id));
+            _cache.SetCache<ClientDto>(client, client.Id.ToString(), 5);
             return client;
         }
 
@@ -69,6 +79,7 @@ namespace Business.Services.Repository
                 _mapper.Map(client, currentClient);
                 _context.Update(currentClient);
                 _context.SaveChanges();
+                _cache.RemoveCache(client.Id.ToString());
             }
             catch (Exception ex)
             {

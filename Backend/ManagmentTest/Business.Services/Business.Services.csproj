@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business.Mappers\Business.Mappers.csproj" />
+    <ProjectReference Include="..\Helpers\Helpers.csproj" />
     <ProjectReference Include="..\Persistance.Context\Persistance.Context.csproj" />
   </ItemGroup>
 
