@@ -19,10 +19,9 @@ namespace Management.Api.Controllers
         [ApiVersion("1")]
         [ApiExplorerSettings(GroupName = "v1")]
         [HttpPost]
-        public async Task<ActionResult<ApiResponse>> Create(ClientDto clientDto)
+        public async Task<ActionResult<ApiResponse<Guid>>> Create(ClientDto clientDto)
         {
-            await _clientRepository.Create(clientDto);
-            return Ok(new ApiResponse());
+            return Ok(new ApiResponse<Guid> { Data = await _clientRepository.Create(clientDto) });
         }
         [ApiVersion("1")]
         [ApiExplorerSettings(GroupName = "v1")]
@@ -50,7 +49,7 @@ namespace Management.Api.Controllers
         [ApiVersion("1")]
         [ApiExplorerSettings(GroupName = "v1")]
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<PaginationResult<ClientDto>>>> GetByClientId([FromBody] PaginationRequest paginationRequest)
+        public async Task<ActionResult<ApiResponse<PaginationResult<ClientDto>>>> GetByClientId([FromQuery] PaginationRequest paginationRequest)
         {
             return Ok(new ApiResponse<PaginationResult<ClientDto>> { Data = await _clientRepository.List(paginationRequest) });
         }

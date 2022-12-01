@@ -20,13 +20,16 @@ namespace Business.Services.Repository
             _context = context;
             _cache = cache;
         }
-        public async Task Create(ClientDto client)
+        public async Task<Guid> Create(ClientDto client)
         {
             try
             {
+
                 var newClient = _mapper.Map<Client>(client);
+                newClient.Id = new Guid();
                 _context.Add(newClient);
                 _context.SaveChanges();
+                return newClient.Id;
             }
             catch (Exception ex)
             {

@@ -5,7 +5,7 @@ namespace Business.Services.IRepository
 {
     public interface IClientRepository
     {
-        public Task Create(ClientDto client);
+        public Task<Guid> Create(ClientDto client);
         public Task Update(ClientDto client);
         public Task Delete(Guid id);
         public Task<PaginationResult<ClientDto>> List(PaginationRequest paginationRequest);
