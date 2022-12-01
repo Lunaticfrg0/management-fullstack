@@ -74,7 +74,12 @@ namespace Management.Api
                 });
             }
             app.UseRouting();
-            app.UseCors("CorsPolicy");
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
             app.UseDeveloperExceptionPage();
             app.ConfigureCustomExceptionMiddleware();
             app.UseAuthorization();
