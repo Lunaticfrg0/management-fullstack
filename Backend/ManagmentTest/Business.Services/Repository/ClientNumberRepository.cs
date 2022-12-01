@@ -47,15 +47,17 @@ namespace Business.Services.Repository
             }
         }
 
+        public async Task<List<ClientNumberDto>> GetByClientId(Guid clientId)
+        {
+            var list = _mapper.Map<List<ClientNumberDto>>(await _context.ClientNumbers
+                .Where(x => x.ClientId == clientId).ToListAsync()); 
+            return list;
+        }
+
         public async Task<ClientNumberDto> GetById(Guid id)
         {
             var clientNumber = _mapper.Map<ClientNumberDto>(_context.ClientNumbers.FirstOrDefault(x => x.Id == id));
             return clientNumber;
-        }
-
-        public Task<List<ClientNumberDto>> List(Guid clientId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task Update(ClientNumberDto clientNumber)

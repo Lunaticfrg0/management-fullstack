@@ -47,16 +47,19 @@ namespace Business.Services.Repository
             }
         }
 
+        public async Task<List<ClientAddressDto>> GetByClientId(Guid clientId)
+        {
+            var list = _mapper.Map<List<ClientAddressDto>>(await _context.ClientAddresses
+                .Where(x => x.ClientId == clientId).ToListAsync());
+            return list;
+        }
+
         public async Task<ClientAddressDto> GetById(Guid id)
         {
             var clientAddress = _mapper.Map<ClientAddressDto>(_context.ClientAddresses.FirstOrDefault(x => x.Id == id));
             return clientAddress;
         }
 
-        public Task<List<ClientAddressDto>> List(Guid clientId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task Update(ClientAddressDto clientAddress)
         {

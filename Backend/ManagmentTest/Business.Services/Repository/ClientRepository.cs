@@ -49,7 +49,10 @@ namespace Business.Services.Repository
 
         public async Task<ClientDto> GetById(Guid id)
         {
-            var client = _mapper.Map<ClientDto>(_context.Clients.FirstOrDefault(x => x.Id == id));
+            var client = _mapper.Map<ClientDto>(_context.Clients
+                .Include(x => x.ClientAddresses)
+                .Include(x => x.ClientNumbers)
+                .FirstOrDefault(x => x.Id == id));
             return client;
         }
 
