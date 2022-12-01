@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Helpers.GlobalEntities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
 using Persistance.Domain.Entities;
@@ -47,11 +48,32 @@ namespace Business.Services.Repository
             }
         }
 
-        public async Task<List<ClientAddressDto>> GetByClientId(Guid clientId)
+        public async Task<PaginationResult<ClientAddressDto>> GetByClientId(Guid clientId, PaginationRequest paginationRequest)
         {
-            var list = _mapper.Map<List<ClientAddressDto>>(await _context.ClientAddresses
-                .Where(x => x.ClientId == clientId).ToListAsync());
-            return list;
+            int skip = (paginationRequest.CurrentPage - 1) * paginationRequest.PageSize;
+            var loweredSearchTerm = paginationRequest.SearchTerm?.ToLower();
+
+            var query = (from cn in _context.ClientAddresses
+                         where (cn.ClientId == clientId)
+                         select new ClientAddressDto
+                         {
+                             Id = cn.Id,
+                             FirstLine = cn.FirstLine,
+                             SecondLine = cn.SecondLine,
+                             ZipCode = cn.ZipCode,
+                             AdditionalDetails = cn.AdditionalDetails
+
+                         }
+                ).OrderByDescending(x => x.FirstLine).AsQueryable();
+
+            PaginationResult<ClientAddressDto> paginationResult = new PaginationResult<ClientAddressDto>();
+            paginationResult.List = await query.Skip(skip).Take(paginationRequest.PageSize).ToListAsync();
+            paginationResult.TotalItems = await query.CountAsync();
+            var totalPages = ((double)paginationResult.TotalItems / (double)paginationRequest.PageSize);
+            paginationResult.TotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+
+            return paginationResult;
         }
 
         public async Task<ClientAddressDto> GetById(Guid id)

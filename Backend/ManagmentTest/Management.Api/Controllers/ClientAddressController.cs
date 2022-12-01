@@ -2,6 +2,7 @@
 using Business.Services.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Helpers.GlobalEntities;
+using Business.Services.Repository;
 
 namespace Management.Api.Controllers
 {
@@ -47,12 +48,12 @@ namespace Management.Api.Controllers
         {
             return Ok(new ApiResponse<ClientAddressDto> { Data = await _clientAddressRepository.GetById(id) });
         }
-        //[ApiVersion("1")]
-        //[ApiExplorerSettings(GroupName = "v1")]
-        //[HttpGet("{clientId}")]
-        //public async Task<ActionResult<ApiResponse<ClientAddressDto>>> GetByClientId(Guid clientId)
-        //{
-        //    return Ok(new ApiResponse<ClientAddressDto> { Data = await _clientAddressRepository.GetById(clientId) });
-        //}
+        [ApiVersion("1")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [HttpGet("{clientId}")]
+        public async Task<ActionResult<ApiResponse<PaginationResult<ClientAddressDto>>>> GetByClientId(Guid clientId, [FromBody] PaginationRequest paginationRequest)
+        {
+            return Ok(new ApiResponse<PaginationResult<ClientAddressDto>> { Data = await _clientAddressRepository.GetByClientId(clientId, paginationRequest) });
+        }
     }
 }

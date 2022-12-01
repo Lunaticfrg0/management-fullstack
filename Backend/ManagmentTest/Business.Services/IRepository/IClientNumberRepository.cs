@@ -1,4 +1,5 @@
 ﻿using Business.Mappers.Dto;
+using Helpers.GlobalEntities;
 
 namespace Business.Services.IRepository
 {
@@ -8,7 +9,6 @@ namespace Business.Services.IRepository
         public Task Update(ClientNumberDto clientNumber);
         public Task Delete(Guid id);
         public Task<ClientNumberDto> GetById(Guid id);
-        //Add Pagination
-        public Task<List<ClientNumberDto>> GetByClientId(Guid clientId);
+        public Task<PaginationResult<ClientNumberDto>> GetByClientId(Guid clientId, PaginationRequest paginationRequest);
     }
 }

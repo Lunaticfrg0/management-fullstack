@@ -1,7 +1,7 @@
 ﻿using Business.Mappers.Dto;
 using Business.Services.IRepository;
-using Microsoft.AspNetCore.Mvc;
 using Helpers.GlobalEntities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Api.Controllers
 {
@@ -46,6 +46,13 @@ namespace Management.Api.Controllers
         public async Task<ActionResult<ApiResponse<ClientDto>>> Get(Guid id)
         {
             return Ok(new ApiResponse<ClientDto> { Data = await _clientRepository.GetById(id) });
+        }
+        [ApiVersion("1")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [HttpGet]
+        public async Task<ActionResult<ApiResponse<PaginationResult<ClientDto>>>> GetByClientId([FromBody] PaginationRequest paginationRequest)
+        {
+            return Ok(new ApiResponse<PaginationResult<ClientDto>> { Data = await _clientRepository.List(paginationRequest) });
         }
     }
 }

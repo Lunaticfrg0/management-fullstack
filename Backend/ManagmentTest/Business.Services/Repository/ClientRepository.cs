@@ -2,6 +2,7 @@
 using Business.Mappers.Dto;
 using Business.Services.IRepository;
 using Helpers.Cache;
+using Helpers.GlobalEntities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
 using Persistance.Domain.Entities;
@@ -66,9 +67,33 @@ namespace Business.Services.Repository
             return client;
         }
 
-        public Task<List<ClientDto>> List()
+        public async Task<PaginationResult<ClientDto>> List(PaginationRequest paginationRequest)
         {
-            throw new NotImplementedException();
+            int skip = (paginationRequest.CurrentPage - 1) * paginationRequest.PageSize;
+            var loweredSearchTerm = paginationRequest.SearchTerm?.ToLower();
+
+            var query = (from c in _context.Clients
+                         where (c.Name.ToLower().Contains(loweredSearchTerm) ||
+                                c.Lastname.ToLower().Contains(loweredSearchTerm) ||
+                                String.IsNullOrEmpty(loweredSearchTerm))
+                         select new ClientDto
+                         {
+                             Id = c.Id,
+                             Name = c.Name,
+                             Lastname = c.Lastname,
+                             BirthDate = c.BirthDate
+
+                         }
+                ).OrderByDescending(x => x.Name).AsQueryable();
+
+            PaginationResult<ClientDto> paginationResult = new PaginationResult<ClientDto>();
+            paginationResult.List = await query.Skip(skip).Take(paginationRequest.PageSize).ToListAsync();
+            paginationResult.TotalItems = await query.CountAsync();
+            var totalPages = ((double)paginationResult.TotalItems / (double)paginationRequest.PageSize);
+            paginationResult.TotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+
+            return paginationResult;
         }
 
         public async Task Update(ClientDto client)

@@ -47,12 +47,12 @@ namespace Management.Api.Controllers
         {
             return Ok(new ApiResponse<ClientNumberDto> { Data = await _clientNumberRepository.GetById(id) });
         }
-        //[ApiVersion("1")]
-        //[ApiExplorerSettings(GroupName = "v1")]
-        //[HttpGet("{clientId}")]
-        //public async Task<ActionResult<ApiResponse<ClientNumberDto>>> GetByClientId(Guid clientId)
-        //{
-        //    return Ok(new ApiResponse<ClientNumberDto> { Data = await _clientNumberRepository.GetById(clientId) });
-        //}
+        [ApiVersion("1")]
+        [ApiExplorerSettings(GroupName = "v1")]
+        [HttpGet("{clientId}")]
+        public async Task<ActionResult<ApiResponse<PaginationResult<ClientNumberDto>>>> GetByClientId(Guid clientId, [FromBody]PaginationRequest paginationRequest)
+        {
+            return Ok(new ApiResponse<PaginationResult<ClientNumberDto>> { Data = await _clientNumberRepository.GetByClientId(clientId, paginationRequest) });
+        }
     }
 }
