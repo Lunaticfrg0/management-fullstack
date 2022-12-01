@@ -5,6 +5,7 @@ import { Title, PaginationContainer } from "./home.styles";
 import { root_api } from "../../utils/constants";
 import ReactPaginate from 'react-paginate';
 import './home.styles.css';
+import SearchBox from "../../components/search-box/search-box.component";
 
 const Home = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -36,10 +37,16 @@ const Home = () => {
             })
       }, [pageNumber, searchTerm])
 
+      const onSearchChange = (e) => {
+        const searchFieldString = e.target.value.toLocaleLowerCase()
+        setSearchTerm(searchFieldString)
     
+    }
     return (
         <Fragment>
             <Title>Contacts</Title>
+            <SearchBox onChangeHandler = {onSearchChange} 
+                placeholder="Search for clients" />
             <CardList clients={clientsList}/>
             <PaginationContainer>
                 <ReactPaginate
