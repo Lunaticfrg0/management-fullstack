@@ -22,6 +22,7 @@ namespace Business.Services.Repository
             {
                 var newClient = _mapper.Map<Client>(client);
                 _context.Add(newClient);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -37,6 +38,7 @@ namespace Business.Services.Repository
                 var currentClient = await _context.Clients.FirstAsync(x => x.Id == id);
                 currentClient.IsDeleted = true;
                 _context.Update(currentClient);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -63,6 +65,7 @@ namespace Business.Services.Repository
                 var currentClient = await _context.Clients.FirstAsync(x => x.Id == client.Id);
                 _mapper.Map(client, currentClient);
                 _context.Update(currentClient);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
