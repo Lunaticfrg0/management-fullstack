@@ -16,21 +16,30 @@ export const DeleteBtn = styled(BaseButton)`
   }
 `
 
+export const AddBtn = styled(BaseButton)`
+    background-color: green;
+    color: black;
+    &:hover {
+    background-color: white;
+    color: green;
+    border: 1px solid black;
+  }
+`
+
 export const UpdateBtn = styled(BaseButton)`
   
 `
 export const ButtonsContainer = styled.div`
     display: flex;
-    justify-content: space-between;
-    width: 40vw;    
+    justify-content: center;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
     align-items:center;
     margin: auto;
-    padding: 10px;
   button{
-    font-size: 12px
+    font-size: medium;
+    margin: 15px;
   }
 `;
