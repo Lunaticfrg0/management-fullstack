@@ -4,6 +4,7 @@ import Client from './routes/client/client.component';
 import NavigationBar from './routes/navigation-bar/navigation-bar.component';
 import './App.css';
 import ClientCreate from "./routes/client-create/client-create.component";
+import NotFound from "./routes/not-found/not-found.component";
 function App() {
   return (
     <div className="App">
@@ -13,6 +14,7 @@ function App() {
           <Route path="client/:id" element={<Client/>}/>
           <Route path="create-client" element={<ClientCreate/>}/>
         </Route>
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </div>
   );

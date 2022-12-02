@@ -22,3 +22,8 @@ margin-top: 75px;
   font-size: 76px;
   color: white;
 `;
+
+export const Image = styled.img`
+    max-width: 500px;
+    max-height: 500px;
+`;
