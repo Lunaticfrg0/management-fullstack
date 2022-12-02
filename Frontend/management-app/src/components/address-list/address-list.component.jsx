@@ -60,7 +60,7 @@ const AddressList = ({addresses}) =>  {
                     <div key={item.id}>
                         <h2>Address #{i+1}</h2>
                         <ButtonsContainer>
-                            <DeleteBtn disable={isLoading} onClick={() => deleteAddress(item.id)}>Borrar</DeleteBtn>
+                            <DeleteBtn disable={isLoading} onClick={() => deleteAddress(item.id)}>Delete</DeleteBtn>
                             <UpdateBtn disable={isLoading} onClick={() => handleClickUpdateOpen(item)}>Update</UpdateBtn>
                         </ButtonsContainer>
                         <Address key={item.id}  address={item}></Address>
