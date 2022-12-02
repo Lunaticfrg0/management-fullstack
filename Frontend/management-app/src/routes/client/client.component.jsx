@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Profile from "../../components/profile/profile.component";
 import AddressList from "../../components/address-list/address-list.component";
 import { TabContainer } from "./client.styles";
+import ProfileManager from "../../components/profile-manager/profile-manager.component";
 
 const defaultClient = {
     name: "",
@@ -99,7 +100,7 @@ const Client = () => {
                     <AddressList addresses={client.clientAddresses}/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Configurations
+                  <ProfileManager client={client}/>
                 </TabPanel>
             </Box>
         </TabContainer>
