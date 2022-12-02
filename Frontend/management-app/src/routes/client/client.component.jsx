@@ -76,7 +76,6 @@ const Client = () => {
             {
                 setIsLoading(false)
                 setClient(result.data)
-                console.log(client, "llll")
             })
             setIsLoading(false)
       }, [])

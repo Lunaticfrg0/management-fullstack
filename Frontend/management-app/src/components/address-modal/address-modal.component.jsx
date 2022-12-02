@@ -67,17 +67,7 @@ const AddressModal = ({openState, closeHandler, address}) => {
         setIsLoading(false)
         resetFormFields()
     } catch (error) {
-        switch(error.code){
-            case "auth/wrong-password":
-                alert("Email or password incorrect")
-                break;
-            case "auth/user-not-found":
-                alert("No user associates to email")
-                break;
-            default:
-                console.log(error.code)
-                break;
-        }
+        console.log(error)
     }
 
 }

@@ -59,17 +59,7 @@ const ProfileManager = ({client}) => {
             });
             setIsLoading(false)
         } catch (error) {
-            switch(error.code){
-                case "auth/wrong-password":
-                    alert("Email or password incorrect")
-                    break;
-                case "auth/user-not-found":
-                    alert("No user associates to email")
-                    break;
-                default:
-                    console.log(error.code)
-                    break;
-            }
+            console.log(error)
         }
     
     }
