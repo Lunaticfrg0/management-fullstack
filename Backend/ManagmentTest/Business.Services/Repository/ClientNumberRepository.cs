@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Helpers.Cache;
 using Helpers.GlobalEntities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
@@ -13,10 +14,12 @@ namespace Business.Services.Repository
 
         private readonly IMapper _mapper;
         private readonly Context _context;
-        public ClientNumberRepository(IMapper mapper, Context context)
+        private readonly ICache _cache;
+        public ClientNumberRepository(IMapper mapper, Context context, ICache cache)
         {
             _mapper = mapper;
             _context = context;
+            _cache = cache;
         }
         public async Task Create(ClientNumberDto clientNumber)
         {
@@ -25,6 +28,8 @@ namespace Business.Services.Repository
                 var newClientNumber = _mapper.Map<ClientNumber>(clientNumber);
                 _context.Add(newClientNumber);
                 _context.SaveChanges();
+                _cache.RemoveCache(clientNumber.ClientId.ToString());
+
             }
             catch (Exception ex)
             {
@@ -40,6 +45,8 @@ namespace Business.Services.Repository
                 var currentClientNumber = await _context.ClientNumbers.FirstAsync(x => x.Id == id);
                 _context.ClientNumbers.Remove(currentClientNumber);
                 _context.SaveChanges();
+                _cache.RemoveCache(currentClientNumber.ClientId.ToString());
+
             }
             catch (Exception ex)
             {
@@ -87,6 +94,8 @@ namespace Business.Services.Repository
                 _mapper.Map(clientNumber, currentClientNumber);
                 _context.Update(currentClientNumber);
                 _context.SaveChanges();
+                _cache.RemoveCache(currentClientNumber.ClientId.ToString());
+
             }
             catch (Exception ex)
             {

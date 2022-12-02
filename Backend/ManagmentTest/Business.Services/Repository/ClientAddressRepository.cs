@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Mappers.Dto;
 using Business.Services.IRepository;
+using Helpers.Cache;
 using Helpers.GlobalEntities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
@@ -12,10 +13,12 @@ namespace Business.Services.Repository
     {
         private readonly IMapper _mapper;
         private readonly Context _context;
-        public ClientAddressRepository(IMapper mapper, Context context)
+        private readonly ICache _cache;
+        public ClientAddressRepository(IMapper mapper, Context context, ICache cache)
         {
             _mapper = mapper;
             _context = context;
+            _cache = cache;
         }
         public async Task Create(ClientAddressDto clientAddress)
         {
@@ -24,6 +27,7 @@ namespace Business.Services.Repository
                 var newClientAddress = _mapper.Map<ClientAddress>(clientAddress);
                 await _context.AddAsync(newClientAddress);
                 await _context.SaveChangesAsync();
+                _cache.RemoveCache(clientAddress.ClientId.ToString());
             }
             catch (Exception ex)
             {
@@ -40,6 +44,7 @@ namespace Business.Services.Repository
                 currentClientAddress.IsDeleted = true;
                 _context.Update(currentClientAddress);
                 _context.SaveChanges();
+                _cache.RemoveCache(currentClientAddress.ClientId.ToString());
             }
             catch (Exception ex)
             {
@@ -91,6 +96,7 @@ namespace Business.Services.Repository
                 _mapper.Map(clientAddress, currentClientAddress);
                 _context.Update(currentClientAddress);
                 _context.SaveChanges();
+                _cache.RemoveCache(currentClientAddress.ClientId.ToString());
             }
             catch (Exception ex)
             {

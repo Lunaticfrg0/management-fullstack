@@ -58,10 +58,10 @@ namespace Business.Services.Repository
         public async Task<ClientDto> GetById(Guid id)
         {
             var cachedValue = _cache.GetCache<ClientDto>(id.ToString());
-            //if (cachedValue != null)
-            //{
-            //    return cachedValue;
-            //}
+            if (cachedValue != null)
+            {
+                return cachedValue;
+            }
             var client = _mapper.Map<ClientDto>(_context.Clients
                 .Include(x => x.ClientAddresses)
                 .Include(x => x.ClientNumbers)
