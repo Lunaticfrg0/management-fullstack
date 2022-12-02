@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import { CardContainer, Image, ButtonsContainer } from "./profile.styles"
+import { CardContainer, Image, ContactMail, ContactName } from "./profile.styles"
 const Profile = ({client, isLoading}) => {
     const {id, name, lastname} = client
     return(
@@ -8,10 +8,12 @@ const Profile = ({client, isLoading}) => {
                 <Image alt={`Client ${name}`} 
                     src={`https://robohash.org/${id}?set=set2`}
                 />
-                <h2>
+                <ContactName>
                 {name} {lastname}
-                </h2>
-                <p>emilio3scano@gmail.com</p>
+                </ContactName>
+                <ContactMail>
+                    <p>emilio3scano@gmail.com</p>
+                </ContactMail>
             </CardContainer>  
         </Fragment>
     )

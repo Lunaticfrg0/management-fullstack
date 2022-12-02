@@ -23,7 +23,18 @@ margin-top: 75px;
   color: white;
 `;
 
+export const ContactName = styled.h2`
+  font-size: 2rem;
+  font-weight: bold;
+`;
+
+export const ContactMail = styled.div`
+  font-size: 1rem;
+  inline-size: 80%;
+  overflow-wrap: break-word;
+`;
+
 export const Image = styled.img`
-    max-width: 500px;
+    max-width: 40vw;
     max-height: 500px;
 `;

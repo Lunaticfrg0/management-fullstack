@@ -1,14 +1,6 @@
 import styled from "styled-components"
-export const CardContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #f2f2f2;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 25px;
-    -moz-osx-font-smoothing: grayscale;
-    backface-visibility: hidden;
-    width: 40vw;    
+export const TabContainer = styled.div`
+    width: 80vw;    
     top:0;
     bottom: 0;
     left: 0;

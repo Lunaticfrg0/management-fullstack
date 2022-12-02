@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Profile from "../../components/profile/profile.component";
 import AddressList from "../../components/address-list/address-list.component";
-
+import { TabContainer } from "./client.styles";
 
 const defaultClient = {
     name: "",
@@ -82,7 +82,7 @@ const Client = () => {
 
 
     return (
-        <Fragment>
+        <TabContainer>
             <Title>{client.name} {client.lastname}</Title>
             <Box sx={{ width: '100%' , bgcolor: 'background.paper'}}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -102,7 +102,7 @@ const Client = () => {
                     Configurations
                 </TabPanel>
             </Box>
-        </Fragment>
+        </TabContainer>
     )
 }
 export default Client;
