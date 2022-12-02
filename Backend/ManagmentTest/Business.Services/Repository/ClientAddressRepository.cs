@@ -22,8 +22,8 @@ namespace Business.Services.Repository
             try
             {
                 var newClientAddress = _mapper.Map<ClientAddress>(clientAddress);
-                _context.Add(newClientAddress);
-                _context.SaveChanges();
+                await _context.AddAsync(newClientAddress);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace Business.Services.Repository
         {
             try
             {
-                var currentClientAddress = await _context.ClientNumbers.FirstAsync(x => x.Id == clientAddress.Id);
+                var currentClientAddress = await _context.ClientAddresses.FirstAsync(x => x.Id == clientAddress.Id);
                 _mapper.Map(clientAddress, currentClientAddress);
                 _context.Update(currentClientAddress);
                 _context.SaveChanges();
